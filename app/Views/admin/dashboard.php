@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <!-- REKAP JUMLAH DATA -->
         <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <!-- <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-primary card-header-icon">
                         <div class="card-icon">
@@ -22,8 +22,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            </div> -->
+            <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-success card-header-icon">
                         <div class="card-icon">
@@ -42,7 +42,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <!-- <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-info card-header-icon">
                         <div class="card-icon">
@@ -60,8 +60,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            </div> -->
+            <div class="col-lg-6 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header card-header-danger card-header-icon">
                         <div class="card-icon">
@@ -81,7 +81,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header card-header-primary">
@@ -138,10 +138,10 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- GRAFIK CHART -->
         <div class="row">
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
                 <div class="card card-chart">
                     <div class="card-header card-header-primary">
                         <div class="ct-chart" id="kehadiranSiswa"></div>
@@ -156,8 +156,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
+            </div> -->
+            <div class="col-md-12">
                 <div class="card card-chart">
                     <div class="card-header card-header-success">
                         <div class="ct-chart" id="kehadiranGuru"></div>

@@ -18,30 +18,55 @@
     border-radius: 0px;
   }
 </style>
+<?php
+$context = $ctx ?? 'dashboard';
+switch ($context) {
+  case 'absen-siswa':
+  case 'siswa':
+  case 'kelas':
+    $sidebarColor = 'purple';
+    break;
+  case 'absen-guru':
+  case 'guru':
+    $sidebarColor = 'green';
+    break;
+
+  case 'qr':
+    $sidebarColor = 'danger';
+    break;
+
+  default:
+    $sidebarColor = 'azure';
+    break;
+}
+?>
 <div class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-12 col-md-12">
-        <?php if (session()->getFlashdata('msg')) : ?>
-          <div class="pb-2 px-3">
-            <div class="alert alert-<?= session()->getFlashdata('error') == true ? 'danger' : 'success'  ?> ">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <i class="material-icons">close</i>
-              </button>
-              <?= session()->getFlashdata('msg') ?>
+  <?php if (user()->toArray()['is_superadmin'] ?? '0' == '1') : ?>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <?php if (session()->getFlashdata('msg')) : ?>
+            <div class="pb-2 px-3">
+              <div class="alert alert-<?= session()->getFlashdata('error') == true ? 'danger' : 'success'  ?> ">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <i class="material-icons">close</i>
+                </button>
+                <?= session()->getFlashdata('msg') ?>
+              </div>
             </div>
-          </div>
-        <?php endif; ?>
-        <div class="card">
-          <div class="card-header card-header-danger">
-            <h4 class="card-title"><b>Generate QR Code</b></h4>
-            <p class="card-category">Generate QR berdasarkan kode unik data siswa/guru</p>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="card">
-                  <div class="card-body">
+          <?php endif; ?>
+          <div class="card">
+            <div class="card-header card-header-danger">
+              <h4 class="card-title"><b>Generate QR Code</b></h4>
+              <!-- <p class="card-category">Generate QR berdasarkan kode unik data siswa/guru</p> -->
+              <p class="card-category">Generate QR berdasarkan kode unik data Guru</p>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <!-- <div class="col-md-6"> -->
+                  <div class="card">
+                    <!-- <div class="card-body">
                     <h4 class="text-primary"><b>Data Siswa</b></h4>
                     <p>Total jumlah siswa : <b><?= count($siswa); ?></b>
                       <br>
@@ -138,73 +163,74 @@
                       Untuk generate/download QR Code per masing-masing siswa kunjungi
                       <a href="<?= base_url('admin/siswa'); ?>"><b>data siswa</b></a>
                     </p>
+                  </div> -->
                   </div>
                 </div>
-              </div>
-              <div class="col-md-6">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 class="text-success"><b>Data Guru</b></h4>
-                    <p>Total jumlah guru : <b><?= count($guru); ?></b>
-                      <br>
-                      <a href="<?= base_url('admin/guru'); ?>" class="text-success">Lihat data</a>
-                    </p>
-                    <div class="row px-2">
-                      <div class="col-12 col-xl-6 px-1">
-                        <button onclick="generateAllQrGuru()" class="btn btn-success p-2 px-md-4 w-100">
-                          <div class="d-flex align-items-center justify-content-center" style="gap: 12px;">
-                            <div>
-                              <i class="material-icons" style="font-size: 24px;">qr_code</i>
-                            </div>
-                            <div>
-                              <h4 class="d-inline font-weight-bold">Generate All</h4>
+                <div class="col-md-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="text-success"><b>Data Guru</b></h4>
+                      <p>Total jumlah guru : <b><?= count($guru); ?></b>
+                        <br>
+                        <a href="<?= base_url('admin/guru'); ?>" class="text-success">Lihat data</a>
+                      </p>
+                      <div class="row px-2">
+                        <div class="col-12 col-xl-6 px-1">
+                          <button onclick="generateAllQrGuru()" class="btn btn-success p-2 px-md-4 w-100">
+                            <div class="d-flex align-items-center justify-content-center" style="gap: 12px;">
                               <div>
-                                <div id="progressGuru" class="d-none mt-2">
-                                  <span id="progressTextGuru"></span>
-                                  <i id="progressSelesaiGuru" class="material-icons d-none" class="d-none">check</i>
-                                  <div class="progress progress-guru">
-                                    <div id="progressBarGuru" class="progress-bar my-progress-bar bg-white" style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin="" aria-valuemax=""></div>
+                                <i class="material-icons" style="font-size: 24px;">qr_code</i>
+                              </div>
+                              <div>
+                                <h4 class="d-inline font-weight-bold">Generate All</h4>
+                                <div>
+                                  <div id="progressGuru" class="d-none mt-2">
+                                    <span id="progressTextGuru"></span>
+                                    <i id="progressSelesaiGuru" class="material-icons d-none" class="d-none">check</i>
+                                    <div class="progress progress-guru">
+                                      <div id="progressBarGuru" class="progress-bar my-progress-bar bg-white" style="width: 0%;" role="progressbar" aria-valuenow="" aria-valuemin="" aria-valuemax=""></div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </button>
-                      </div>
-                      <div class="col-12 col-xl-6 px-1">
-                        <a href="<?= base_url('admin/qr/guru/download'); ?>" class="btn btn-success p-2 px-md-4 w-100">
-                          <div class="d-flex align-items-center justify-content-center" style="gap: 12px;">
-                            <div>
-                              <i class="material-icons" style="font-size: 24px;">cloud_download</i>
-                            </div>
-                            <div>
-                              <div class="text-start">
-                                <h4 class="d-inline font-weight-bold">Download All</h4>
+                          </button>
+                        </div>
+                        <div class="col-12 col-xl-6 px-1">
+                          <a href="<?= base_url('admin/qr/guru/download'); ?>" class="btn btn-success p-2 px-md-4 w-100">
+                            <div class="d-flex align-items-center justify-content-center" style="gap: 12px;">
+                              <div>
+                                <i class="material-icons" style="font-size: 24px;">cloud_download</i>
+                              </div>
+                              <div>
+                                <div class="text-start">
+                                  <h4 class="d-inline font-weight-bold">Download All</h4>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </a>
+                          </a>
+                        </div>
                       </div>
+                      <br>
+                      <br>
+                      <p>
+                        Untuk generate/download QR Code per masing-masing guru kunjungi
+                        <a href="<?= base_url('admin/guru'); ?>" class="text-success"><b>data guru</b></a>
+                      </p>
                     </div>
-                    <br>
-                    <br>
-                    <p>
-                      Untuk generate/download QR Code per masing-masing guru kunjungi
-                      <a href="<?= base_url('admin/guru'); ?>" class="text-success"><b>data guru</b></a>
-                    </p>
                   </div>
+                  <p class="text-danger">
+                    <i class="material-icons" style="font-size: 16px;">warning</i>
+                    File image QR Code tersimpan di [folder website]/public/uploads/
+                  </p>
                 </div>
-                <p class="text-danger">
-                  <i class="material-icons" style="font-size: 16px;">warning</i>
-                  File image QR Code tersimpan di [folder website]/public/uploads/
-                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  <?php endif; ?>
 </div>
 <script>
   const dataGuru = [

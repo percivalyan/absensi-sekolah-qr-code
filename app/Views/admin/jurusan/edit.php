@@ -1,37 +1,61 @@
 <?= $this->extend('templates/admin_page_layout') ?>
 <?= $this->section('content') ?>
+<?php
+$context = $ctx ?? 'dashboard';
+switch ($context) {
+  case 'absen-siswa':
+  case 'siswa':
+  case 'kelas':
+    $sidebarColor = 'purple';
+    break;
+  case 'absen-guru':
+  case 'guru':
+    $sidebarColor = 'green';
+    break;
+
+  case 'qr':
+    $sidebarColor = 'danger';
+    break;
+
+  default:
+    $sidebarColor = 'azure';
+    break;
+}
+?>
 <div class="content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-lg-12 col-md-12">
-        <?= view('admin/_messages'); ?>
-        <div class="card">
-          <div class="card-header card-header-primary">
-            <h4 class="card-title"><b>Form Edit Jurusan</b></h4>
-          </div>
-          <div class="card-body mx-5 my-3">
+  <?php if (user()->toArray()['is_superadmin'] ?? '0' == '1') : ?>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-12 col-md-12">
+          <?= view('admin/_messages'); ?>
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title"><b>Form Edit Jurusan</b></h4>
+            </div>
+            <div class="card-body mx-5 my-3">
 
-            <form action="<?= base_url('admin/jurusan/editJurusanPost'); ?>" method="post">
-              <?= csrf_field() ?>
-              <input type="hidden" name="id" value="<?= esc($jurusan->id); ?>">
-              <input type="hidden" name="back_url" value="<?= currentFullURL(); ?>">
+              <form action="<?= base_url('admin/jurusan/editJurusanPost'); ?>" method="post">
+                <?= csrf_field() ?>
+                <input type="hidden" name="id" value="<?= esc($jurusan->id); ?>">
+                <input type="hidden" name="back_url" value="<?= currentFullURL(); ?>">
 
-              <div class="form-group mt-4">
-                <label for="jurusan">Nama jurusan</label>
-                <input type="text" id="jurusan" class="form-control <?= invalidFeedback('jurusan') ? 'is-invalid' : ''; ?>" name="jurusan" placeholder="'X', 'XI', '11'" value="<?= old('jurusan') ?? $jurusan->jurusan  ?? '' ?>">
-                <div class="invalid-feedback">
-                  <?= invalidFeedback('jurusan'); ?>
+                <div class="form-group mt-4">
+                  <label for="jurusan">Nama jurusan</label>
+                  <input type="text" id="jurusan" class="form-control <?= invalidFeedback('jurusan') ? 'is-invalid' : ''; ?>" name="jurusan" placeholder="'X', 'XI', '11'" value="<?= old('jurusan') ?? $jurusan->jurusan  ?? '' ?>">
+                  <div class="invalid-feedback">
+                    <?= invalidFeedback('jurusan'); ?>
+                  </div>
                 </div>
-              </div>
 
-              <button type="submit" class="btn btn-primary mt-4">Simpan</button>
-            </form>
+                <button type="submit" class="btn btn-primary mt-4">Simpan</button>
+              </form>
 
-            <hr>
+              <hr>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  <?php endif; ?>
 </div>
 <?= $this->endSection() ?>

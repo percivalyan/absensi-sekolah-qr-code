@@ -1,6 +1,29 @@
 <?= $this->extend('templates/admin_page_layout') ?>
 <?= $this->section('content') ?>
+<?php
+$context = $ctx ?? 'dashboard';
+switch ($context) {
+   case 'absen-siswa':
+   case 'siswa':
+   case 'kelas':
+      $sidebarColor = 'purple';
+      break;
+   case 'absen-guru':
+   case 'guru':
+      $sidebarColor = 'green';
+      break;
+
+   case 'qr':
+      $sidebarColor = 'danger';
+      break;
+
+   default:
+      $sidebarColor = 'azure';
+      break;
+}
+?>
 <div class="content">
+   <?php if (user()->toArray()['is_superadmin'] ?? '0' == '1') : ?>
    <div class="container-fluid">
       <div class="card">
          <div class="card-body">
@@ -47,6 +70,7 @@
          </div>
       </div>
    </div>
+   <?php endif; ?>
 </div>
 <script>
    getGuru();

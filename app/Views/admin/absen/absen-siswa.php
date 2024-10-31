@@ -1,76 +1,100 @@
 <?= $this->extend('templates/admin_page_layout') ?>
 <?= $this->section('content') ?>
+<?php
+$context = $ctx ?? 'dashboard';
+switch ($context) {
+   case 'absen-siswa':
+   case 'siswa':
+   case 'kelas':
+      $sidebarColor = 'purple';
+      break;
+   case 'absen-guru':
+   case 'guru':
+      $sidebarColor = 'green';
+      break;
+
+   case 'qr':
+      $sidebarColor = 'danger';
+      break;
+
+   default:
+      $sidebarColor = 'azure';
+      break;
+}
+?>
 <div class="content">
-   <div class="container-fluid">
-      <div class="row">
-         <div class="col-lg-12 col-md-12">
-            <div class="card">
-               <div class="card-body">
-                  <div class="row justify-content-between">
-                     <div class="col">
-                        <div class="pt-3 pl-3">
-                           <h4><b>Daftar Kelas</b></h4>
-                           <p>Silakan pilih kelas</p>
-                        </div>
-                     </div>
-                  </div>
-
-                  <div class="card-body pt-1 px-3">
-                     <div class="row">
-                        <?php foreach ($kelas as $value) : ?>
-                           <?php
-                           $idKelas = $value['id_kelas'];
-                           $namaKelas =  $value['kelas'] . ' ' . $value['jurusan'];
-                           ?>
-                           <div class="col-md-3">
-                              <button id="kelas-<?= $idKelas; ?>" onclick="getSiswa(<?= $idKelas; ?>, '<?= $namaKelas; ?>')" class="btn btn-primary w-100">
-                                 <?= $namaKelas; ?>
-                              </button>
+   <?php if (user()->toArray()['is_superadmin'] ?? '0' == '1') : ?>
+      <div class="container-fluid">
+         <div class="row">
+            <div class="col-lg-12 col-md-12">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="row justify-content-between">
+                        <div class="col">
+                           <div class="pt-3 pl-3">
+                              <h4><b>Daftar Kelas</b></h4>
+                              <p>Silakan pilih kelas</p>
                            </div>
-                        <?php endforeach; ?>
+                        </div>
                      </div>
-                  </div>
 
-                  <div class="row">
-                     <div class="col-md-3">
-                        <div class="pt-3 pl-3 pb-2">
-                           <h4><b>Tanggal</b></h4>
-                           <input class="form-control" type="date" name="tangal" id="tanggal" value="<?= date('Y-m-d'); ?>" onchange="onDateChange()">
+                     <div class="card-body pt-1 px-3">
+                        <div class="row">
+                           <?php foreach ($kelas as $value) : ?>
+                              <?php
+                              $idKelas = $value['id_kelas'];
+                              $namaKelas =  $value['kelas'] . ' ' . $value['jurusan'];
+                              ?>
+                              <div class="col-md-3">
+                                 <button id="kelas-<?= $idKelas; ?>" onclick="getSiswa(<?= $idKelas; ?>, '<?= $namaKelas; ?>')" class="btn btn-primary w-100">
+                                    <?= $namaKelas; ?>
+                                 </button>
+                              </div>
+                           <?php endforeach; ?>
+                        </div>
+                     </div>
+
+                     <div class="row">
+                        <div class="col-md-3">
+                           <div class="pt-3 pl-3 pb-2">
+                              <h4><b>Tanggal</b></h4>
+                              <input class="form-control" type="date" name="tangal" id="tanggal" value="<?= date('Y-m-d'); ?>" onchange="onDateChange()">
+                           </div>
                         </div>
                      </div>
                   </div>
                </div>
             </div>
          </div>
-      </div>
-      <div class="card" id="dataSiswa">
-         <div class="card-body">
-            <div class="row justify-content-between">
-               <div class="col-auto me-auto">
-                  <div class="pt-3 pl-3">
-                     <h4><b>Absen Siswa</b></h4>
-                     <p>Daftar siswa muncul disini</p>
+         <div class="card" id="dataSiswa">
+            <div class="card-body">
+               <div class="row justify-content-between">
+                  <div class="col-auto me-auto">
+                     <div class="pt-3 pl-3">
+                        <h4><b>Absen Siswa</b></h4>
+                        <p>Daftar siswa muncul disini</p>
+                     </div>
                   </div>
                </div>
             </div>
          </div>
       </div>
-   </div>
 
-   <!-- Modal ubah kehadiran -->
-   <div class="modal fade" id="ubahModal" tabindex="-1" aria-labelledby="modalUbahKehadiran" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-         <div class="modal-content">
-            <div class="modal-header">
-               <h5 class="modal-title" id="modalUbahKehadiran">Ubah kehadiran</h5>
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-               </button>
+      <!-- Modal ubah kehadiran -->
+      <div class="modal fade" id="ubahModal" tabindex="-1" aria-labelledby="modalUbahKehadiran" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="modalUbahKehadiran">Ubah kehadiran</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div id="modalFormUbahSiswa"></div>
             </div>
-            <div id="modalFormUbahSiswa"></div>
          </div>
       </div>
-   </div>
+   <?php endif; ?>
 </div>
 <script>
    var lastIdKelas;

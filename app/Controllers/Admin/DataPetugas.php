@@ -46,7 +46,8 @@ class DataPetugas extends BaseController
 
    public function index()
    {
-      if (user()->toArray()['is_superadmin'] != '1') {
+      // Allow access if the user is either a Super Admin or a Headmaster
+      if (user()->toArray()['is_superadmin'] != '1' && user()->toArray()['is_superadmin'] != '2') {
          return redirect()->to('admin');
       }
 
@@ -72,7 +73,7 @@ class DataPetugas extends BaseController
 
    public function registerPetugas()
    {
-      if (user()->toArray()['is_superadmin'] != '1') {
+      if (user()->toArray()['is_superadmin'] != '1' && user()->toArray()['is_superadmin'] != '2') {
          return redirect()->to('admin');
       }
 

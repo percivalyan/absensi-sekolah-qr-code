@@ -15,7 +15,17 @@
                   <td><?= $i; ?></td>
                   <td><?= $value['username']; ?></td>
                   <td><b><?= $value['email']; ?></b></td>
-                  <td><?= $value['is_superadmin'] == '1' ? 'Super Admin' : 'Petugas'; ?></td>
+                  <td>
+                     <?php
+                     if ($value['is_superadmin'] == '1') {
+                        echo 'Super Admin';
+                     } elseif ($value['is_superadmin'] == '2') {
+                        echo 'Headmaster';
+                     } else {
+                        echo 'Petugas';
+                     }
+                     ?>
+                  </td>
                   <td>
                      <?php if ($value['username'] == 'superadmin') : ?>
                         <button disabled class="btn btn-disabled p-2" id="<?= $value['username']; ?>">

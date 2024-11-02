@@ -84,6 +84,10 @@ switch ($context) {
                            <option value="1" <?= old('role') ?? $oldInput['role'] ?? $data['is_superadmin'] ?? '' == "1" ? 'selected' : ''; ?>>
                               Super Admin
                            </option>
+                           <!-- Headmaster -->
+                           <option value="2" <?= old('role') ?? $oldInput['role'] ?? $data['is_superadmin'] ?? '' == "2" ? 'selected' : ''; ?>>
+                              Headmaster
+                           </option>
                         </select>
                         <div class="invalid-feedback">
                            <?= $validation->getError('role'); ?>

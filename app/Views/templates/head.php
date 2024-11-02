@@ -6,5 +6,14 @@
    <?= $this->include('templates/css'); ?>
    <title><?= $title ?></title>
    <?= $this->include('templates/js') ?>
-   <script>var BaseConfig = {baseURL: '<?= base_url(); ?>', csrfTokenName: '<?= csrf_token() ?>', textOk: "Ok", textCancel: "Batalkan"};</script>
+   <script>
+      var BaseConfig = {
+         baseURL: '<?= base_url(); ?>',
+         csrfTokenName: '<?= csrf_token() ?>',
+         textOk: "Ok",
+         textCancel: "Batalkan"
+      };
+   </script>
+
+   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
